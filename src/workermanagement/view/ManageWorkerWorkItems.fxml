@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="700.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workermanagement.controller.ManageWorkerWorkItemsController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+   <children>
+      <Label fx:id="titleLbl" layoutX="290.0" layoutY="26.0" styleClass="title" text="Work Items" AnchorPane.topAnchor="20.0" />
+      <HBox layoutX="25.0" layoutY="43.0" spacing="10.0">
+         <children>
+            <Button fx:id="backBtn" layoutX="25.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Back to Workers" />
+            <Button fx:id="addWorkitemBtn" layoutX="138.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Add Work Item" />
+         </children>
+      </HBox>
+      <TableView fx:id="workitemsView" layoutX="250.0" layoutY="70.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
+        <columns>
+          <TableColumn fx:id="dateCol" prefWidth="102.0" text="Date" />
+          <TableColumn fx:id="unitCol" prefWidth="100.0" text="Unit" />
+            <TableColumn fx:id="qtyCol" prefWidth="90.0" text="Quantity" />
+            <TableColumn fx:id="rateCol" minWidth="8.0" prefWidth="109.0" text="Rate" />
+            <TableColumn fx:id="totalCol" minWidth="0.0" prefWidth="107.0" text="Total" />
+            <TableColumn fx:id="actionCol" prefWidth="141.0" text="Manage" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

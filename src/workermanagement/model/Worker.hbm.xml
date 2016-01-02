@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 13, 2015 5:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="workermanagement.model.Worker" table="WORKER" schema="ROOT" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="firstname" type="string">
+            <column name="FIRSTNAME" length="30" not-null="true" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="LASTNAME" length="30" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="13" />
+        </property>
+        <property name="currentrate" type="big_decimal">
+            <column name="CURRENTRATE" precision="5" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

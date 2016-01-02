@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
+    <property name="hibernate.connection.url">jdbc:derby://localhost:1527/workermanagement</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">pass</property>
+    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3po.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">30</property>
+    <property name="hibernate.c3p0.timeout">5000</property>
+    <property name="hibernate.c3p0.acquire_increment">2</property>
+    <mapping resource="workermanagement/model/Workitem.hbm.xml"/>
+    <mapping resource="workermanagement/model/Worker.hbm.xml"/>
+    <mapping resource="workermanagement/model/Unit.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
