@@ -7,9 +7,9 @@ package workermanagement.controller;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,8 +50,11 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
     private TableColumn<Workitem, String> totalCol;
     @FXML
     private TableColumn<Workitem, Integer> actionCol;
+    @FXML
+    private Label totalLbl;
     
     ObservableList<Workitem> workitems;
+    BigDecimal total = new BigDecimal(0);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,6 +69,18 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
         String name = WorkHelper.getWorkerNameById(this.getMainIndex()); //get current worker's name
         if(!name.equals("")) titleLbl.setText(titleLbl.getText() + " for " + name); //customize title
         workitems = FXCollections.observableList(WorkHelper.getWorkitemsByWorkerId(this.getMainIndex()));
+        workitems.forEach(wi -> total = total.add(wi.totalProperty().getValue())); //for each work item, add the total dollar value to the total variable
+        updateTotalLabel(); //update the total label
+        workitems.addListener((ListChangeListener.Change<? extends Workitem> change) -> { //add listener to update the total label when a work item is deleted
+            while(change.next()) {
+                if(change.wasRemoved()) {
+                    for(Workitem wi : change.getRemoved()) {
+                        total = total.subtract(wi.totalProperty().getValue());
+                    }
+                }
+            }
+            updateTotalLabel();
+        });
         workitemsView.setItems(workitems); //set table view items to all work item for this worker
         dateCol.setCellValueFactory(cellData -> SceneUtility.formatAsDateProperty(cellData.getValue().dateProperty().getValue())); //set column to show workitem date, formatted
         unitCol.setCellValueFactory(cellData -> cellData.getValue().unitnameProperty()); //set column to show workitem unit name
@@ -130,6 +145,10 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
                 break;
                 
         }
+    }
+    
+    private void updateTotalLabel() {
+        totalLbl.setText("Total: " + SceneUtility.formatAsCurrency(total.toPlainString()));
     }
     
 }

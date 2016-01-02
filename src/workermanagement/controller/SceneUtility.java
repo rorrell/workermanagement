@@ -194,7 +194,7 @@ public class SceneUtility {
      * @return String
      */
     public static String formatAsCurrency(String text) {
-        if(text == null) return "";
+        if(text == null || text.trim().equals("")) return "";
         BigDecimal num = new BigDecimal(removeNumberFormatting(text, new char[]{'.'})); //create Big Decimal from text with all characters that are neither digits nor periods removed
         NumberFormat myFormat = DecimalFormat.getCurrencyInstance(); //get currency formatter
         return myFormat.format(num); //format the number (returns string), and return result
@@ -215,7 +215,9 @@ public class SceneUtility {
      * @return String
      */
     public static String formatAsDecimal(String text) {
-        return formatAsCurrency(text).substring(1); //format as currency, then remove dollar sign
+        String formatted = formatAsCurrency(text); //format first as that will handle null values
+        if(formatted.equals("")) return formatted; //return empty string if that is the result
+        return formatted.substring(1); //otherwise remove dollar sign
     }
     
     /**
