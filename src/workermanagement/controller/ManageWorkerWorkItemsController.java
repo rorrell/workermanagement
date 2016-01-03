@@ -7,10 +7,13 @@ package workermanagement.controller;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import workermanagement.model.WorkHelper;
 import workermanagement.model.Workitem;
@@ -52,8 +56,15 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
     private TableColumn<Workitem, Integer> actionCol;
     @FXML
     private Label totalLbl;
+    @FXML
+    private TextField startDate;
+    @FXML
+    private TextField endDate;
+    @FXML
+    private Button filterBtn;
     
     ObservableList<Workitem> workitems;
+    FilteredList<Workitem> filteredData;
     BigDecimal total = new BigDecimal(0);
 
     @Override
@@ -81,7 +92,8 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
             }
             updateTotalLabel();
         });
-        workitemsView.setItems(workitems); //set table view items to all work item for this worker
+        filteredData = new FilteredList<>(workitems, p -> true); //wrap workitems in filtered list, initially displaying all data
+        workitemsView.setItems(filteredData); //set table view items to all work item for this worker (filtered)
         dateCol.setCellValueFactory(cellData -> SceneUtility.formatAsDateProperty(cellData.getValue().dateProperty().getValue())); //set column to show workitem date, formatted
         unitCol.setCellValueFactory(cellData -> cellData.getValue().unitnameProperty()); //set column to show workitem unit name
         qtyCol.setCellValueFactory(cellData -> SceneUtility.formatAsDecimalProperty(cellData.getValue().qtyStringProperty())); //set column to show workitem quantity formatted as number with 2 decimal places
@@ -107,6 +119,28 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
                 }
             };
             return cell;	
+        });
+        //have the date formatted when the startDate textbox loses focus
+        startDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if(!newValue) { //if textfield has lost focus
+                    try {
+                        startDate.setText(SceneUtility.formatAsDate(startDate.getText()));
+                    }
+                    catch(IllegalArgumentException iae) {
+                        SceneUtility.showError(iae.getMessage());
+                    }
+                }
+        });
+        //have the date formatted when the endDate textbox loses focus
+        endDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if(!newValue) { //if textfield has lost focus
+                    try {
+                        endDate.setText(SceneUtility.formatAsDate(endDate.getText()));
+                    }
+                    catch(IllegalArgumentException iae) {
+                        SceneUtility.showError(iae.getMessage());
+                    }
+                }
         });
     } 
 
@@ -142,6 +176,39 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
                         workitemsView.refresh(); //refresh table view
                     }
                 }
+                break;
+            case "Apply Filter":
+                filteredData.setPredicate((Workitem wi) -> {
+                    if(startDate.getText().trim().equals("") && endDate.getText().trim().equals("")) //if both startDate and endDate are empty
+                        return true; //display all
+                    Date start = SceneUtility.parseDateForDB(startDate.getText()); //may return null
+                    Date end = SceneUtility.parseDateForDB(endDate.getText()); //may return null
+                    if(startDate.getText().trim().equals("")) { //if startDate is empty
+                        try {
+                            return wi.getDate().compareTo(end) <= 0; //see if workitem date is <= end
+                        }
+                        catch(NullPointerException npe) { //if end was null
+                            return false;
+                        }
+                    }
+                    else if(endDate.getText().trim().equals("")) { //if endDate is empty
+                        try {
+                            return wi.getDate().compareTo(start) >= 0; //see if workitem date is >= start
+                        }
+                        catch(NullPointerException npe) { //if start was null
+                            return false;
+                        }
+                    }
+                    else { //if both startDate and endDate are populated
+                        try {
+                            return wi.getDate().compareTo(end) <= 0 && wi.getDate().compareTo(start) >= 0; //see if workitem date is between start and end (inclusive)
+                        }
+                        catch(NullPointerException npe) { //if start and/or end was null
+                            return false;
+                        }
+                    }
+                });
+                workitemsView.refresh(); //refresh table view
                 break;
                 
         }

@@ -33,11 +33,16 @@
       </TableView>
       <VBox layoutX="614.0" layoutY="278.0" AnchorPane.rightAnchor="25.0">
          <children>
-            <Label fx:id="totalLbl" layoutX="614.0" layoutY="278.0" text="Total: $0.00" textAlignment="RIGHT" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Label>
+            <Label fx:id="totalLbl" layoutX="614.0" layoutY="278.0" styleClass="whiteText" text="Total: $0.00" textAlignment="RIGHT" />
          </children>
       </VBox>
+      <HBox layoutX="303.0" layoutY="43.0" styleClass="box" AnchorPane.rightAnchor="25.0">
+         <children>
+            <Label styleClass="whiteText" text="Date Range:" />
+            <TextField fx:id="startDate" layoutX="259.0" layoutY="43.0" styleClass="filterTextField" />
+            <TextField fx:id="endDate" layoutX="423.0" layoutY="43.0" styleClass="filterTextField" />
+            <Button fx:id="filterBtn" layoutX="608.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Apply Filter" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

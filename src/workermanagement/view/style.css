@@ -70,8 +70,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     -fx-pref-width: 150;
 }
 
+.filterTextField {
+    -fx-pref-width: 100;
+}
+
 .required {
     -fx-font-weight: bold;
     -fx-text-fill: red;
     -fx-effect:innershadow(three-pass-box, black, 3.5, 0, 0, 0);
+}
+
+.whiteText {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
 }
