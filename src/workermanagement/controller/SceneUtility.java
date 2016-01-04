@@ -74,8 +74,9 @@ public class SceneUtility {
      * @param targetFxml filename of desired scene
      * @param mainIndex desired primary id
      * @param subIndex desired secondary id
+     * @param msg desired custom message
      */
-    public void changeScene(ActionEvent ae, String currentFxml, String targetFxml, int mainIndex, int subIndex) {
+    public void changeScene(ActionEvent ae, String currentFxml, String targetFxml, int mainIndex, int subIndex, String msg) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(ROOT_PATH + targetFxml)); //create loader for desired scene
         Parent p;
         try {
@@ -85,6 +86,7 @@ public class SceneUtility {
             controller.setSubIndex(subIndex); //set secondary id for controller from method parameter
             controller.setParent(p); //set parent for controller from parent object assigned above
             controller.setPrevious(currentFxml); //set previous for controller from method parameter holding the current fxml file name
+            controller.setMsg(msg); //set custom message for controller
             controller.setup(); //call the setup method now that all parameters have been set (inherited by all controllers in this project from IndexedController interface)
             Scene s = new Scene(p); //create scene from parent node
             Stage app_stage = (Stage) ((Node)ae.getSource()).getScene().getWindow();  //get the stage from the calling button's window
@@ -103,10 +105,20 @@ public class SceneUtility {
      * @param index desired primary id
      */
     public void changeScene(ActionEvent ae, String currentFxml, String targetFxml, int index) {
-        this.changeScene(ae, currentFxml, targetFxml, index, -1); //calls other changeScene method using -1 as subIndex
+        this.changeScene(ae, currentFxml, targetFxml, index, -1, ""); //calls other changeScene method using -1 as subIndex
     } 
     
-    
+    /**
+     * Loads a new scene in the current stage with only a primary id
+     * @param ae ActionEvent from button calling this method
+     * @param currentFxml filename of current scene
+     * @param targetFxml filename of desired scene
+     * @param index desired primary id
+     * @param msg desired custom message
+     */
+    public void changeScene(ActionEvent ae, String currentFxml, String targetFxml, int index, String msg) {
+        this.changeScene(ae, currentFxml, targetFxml, index, -1, msg); //calls other changeScene method using -1 as subIndex
+    }
     
     /**
      * Converts a String into a SimpleStringProperty
@@ -328,6 +340,16 @@ public class SceneUtility {
      */
     public static void showActionError(String text) {
         showError("There was an error " + text + ".");
+    }
+    
+    /**
+     * Show an error dialog associated with putting too large a decimal number in a text field (assumes a number formatted to 2 decimal places)
+     * @param fieldName the text of the label associated with the textfield
+     * @param precision the allowed precision of the field (total number of digits allowed to the left and right of the decimal)
+     */
+    public static void showDecimalPrecisionError(String fieldName, int precision) {
+        String capitalized = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+        showError(capitalized + " cannot have more than " + precision + " digits after being formatted to 2 decimal places.");
     }
     
     /**

@@ -50,6 +50,7 @@ public class UnitInfoController implements Initializable, IndexedController {
         titleLbl.setText(isNew ? "Add Unit" : "Edit Unit"); 
         if(!isNew) //if this is an existing unit, populate fields
             nameTxt.setText(WorkHelper.getUnitNameById(this.getMainIndex()));
+        nameTxt.textProperty().addListener(new TextFieldChangeListener(nameTxt, 30));
     }
 
     @FXML

@@ -34,6 +34,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .background {
     -fx-background-color:  #7a7a7a;
+    -fx-pref-height: 300;
+    -fx-pref-width: 700;
 }
 
 .title {
@@ -58,6 +60,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .labelBox {
     -fx-spacing: 18;
     -fx-alignment: CENTER_RIGHT;
+}
+
+.labelBoxLeftAlign {
+    -fx-spacing: 18;
+    -fx-alignment: CENTER_LEFT;
 }
 
 .textfieldBox {

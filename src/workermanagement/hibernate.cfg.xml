@@ -15,5 +15,6 @@
     <mapping resource="workermanagement/model/Workitem.hbm.xml"/>
     <mapping resource="workermanagement/model/Worker.hbm.xml"/>
     <mapping resource="workermanagement/model/Unit.hbm.xml"/>
+    <mapping resource="workermanagement/model/User.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

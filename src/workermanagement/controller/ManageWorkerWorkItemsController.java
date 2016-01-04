@@ -158,11 +158,11 @@ public class ManageWorkerWorkItemsController implements Initializable, IndexedCo
                 break;
             case "Add Work Item":
                 //go to WorkItemInfo page; use worker id as primary id; no secondary id is needed when add new workitem
-                (new SceneUtility()).changeScene(ae, sourceFxml, "WorkItemInfo.fxml", this.getMainIndex(), -1);
+                (new SceneUtility()).changeScene(ae, sourceFxml, "WorkItemInfo.fxml", this.getMainIndex(), -1, "");
                 break;
             case "Edit":
                 //go to WorkItemInfo page; use worker id as primary id; use workitem id as secondary id to edit current workitem
-                (new SceneUtility()).changeScene(ae, sourceFxml, "WorkItemInfo.fxml", this.getMainIndex(), id);
+                (new SceneUtility()).changeScene(ae, sourceFxml, "WorkItemInfo.fxml", this.getMainIndex(), id, "");
                 break;
             case "Delete":
                 if(SceneUtility.showConfirmationDialog("delete this work item")) { //have user confirm action

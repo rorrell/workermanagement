@@ -1,5 +1,5 @@
-/* 
- * Copyright (c) 2015, Rachel Orrell <rachel.orrell@gmail.com>
+/*
+ * Copyright (c) 2016, Rachel Orrell <rachel.orrell@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,41 +27,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package workermanagement;
+package workermanagement.controller;
 
-import java.util.logging.Logger;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TextField;
 
 /**
- *
+ * Custom change listener to limit the max length of text fields
+ * usage: textfield.textProperty().addListener(new TextFieldChangeListener(textfield, 30);
  * @author Rachel Orrell
  */
-public class WorkerManagement extends Application {
+public class TextFieldChangeListener implements ChangeListener<String> {
     
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/workermanagement/view/Login.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.setOnCloseRequest((WindowEvent we) -> {
-            stage.close();
-            System.exit(0);
-        }); 
-        stage.show();
+    private TextField field;
+    private int maxlength;
+    
+    /**
+     * TextFieldChangeListener constructor
+     * @param field the textfield to apply the maxlength to
+     * @param maxlength the desired maxlength
+     */
+    public TextFieldChangeListener(TextField field, int maxlength) {
+        this.field = field;
+        this.maxlength = maxlength;
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        if(newValue == null || newValue.equals("")) return;
+        
+        if(newValue.length() > maxlength) { //if the new value is too long
+            field.setText(newValue.substring(0, maxlength)); //cut off extra characters
+        }
+        else
+            field.setText(newValue); //otherwise allow new text as is
     }
     
 }

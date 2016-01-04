@@ -55,10 +55,19 @@ public class WorkerInfoController implements Initializable, IndexedController {
         requiredFields.add(firstnameTxt);
         requiredFields.add(lastnameTxt);
         requiredFields.add(rateTxt);
+        firstnameTxt.textProperty().addListener(new TextFieldChangeListener(firstnameTxt, 30));
+        lastnameTxt.textProperty().addListener(new TextFieldChangeListener(lastnameTxt, 30));
+        phoneTxt.textProperty().addListener(new TextFieldChangeListener(phoneTxt, 13));
         //have the rate formatted as a number with 2 decimal places when it loses focus
         rateTxt.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if(!newValue) //if textfield has lost focus
-                    rateTxt.setText(SceneUtility.formatAsDecimal(rateTxt.getText()));
+                if(!newValue) { //if textfield has lost focus
+                    String newText = SceneUtility.formatAsDecimal(rateTxt.getText());
+                    if(newText.length() <= 6)
+                        rateTxt.setText(newText);
+                    else {
+                        SceneUtility.showDecimalPrecisionError("rate", 5);
+                    }
+                }
         });
     }    
     

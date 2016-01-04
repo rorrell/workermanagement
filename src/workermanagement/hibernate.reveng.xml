@@ -5,4 +5,5 @@
   <table-filter match-name="UNIT"/>
   <table-filter match-name="WORKER"/>
   <table-filter match-name="WORKITEM"/>
+  <table-filter match-name="USERS"/>
 </hibernate-reverse-engineering>

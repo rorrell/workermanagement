@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 13, 2015 5:24:15 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="workermanagement.model.User" table="USERS" schema="ROOT" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="username" type="string">
+            <column name="USERNAME" length="30" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="64" not-null="true" />
+        </property>
+        <property name="challengeQuestion" type="string">
+            <column name="CHALLENGEQUESTION" length="255" not-null="true" />
+        </property>
+        <property name="challengeAnswer" type="string">
+            <column name="CHALLENGEANSWER" length="255" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -63,6 +63,11 @@ public interface IndexedController {
      * Previous fxml page
      */
     final StringProperty previous = new SimpleStringProperty("");
+
+    /**
+     * Custom message
+     */
+    final StringProperty msg = new SimpleStringProperty("");
     
     /**
      * Set primary id
@@ -126,6 +131,22 @@ public interface IndexedController {
      */
     default public void setPrevious(String p) {
         previous.set(p);
+    }
+    
+    /**
+     * Get custom msg
+     * @return String
+     */
+    default public String getMsg() {
+        return msg.get();
+    }
+    
+    /**
+     * Set custom msg
+     * @param m custom msg
+     */
+    default public void setMsg(String m) {
+        msg.set(m);
     }
     
     /**

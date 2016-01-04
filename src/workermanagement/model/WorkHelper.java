@@ -67,7 +67,7 @@ public class WorkHelper {
     /**
      * Closes and reopens the session; used when making changes to the database
      */
-    private static void resetSession() {
+    public static void resetSession() {
         session.close();
         session = HibernateUtil.getSessionFactory().openSession();
     }
@@ -294,7 +294,7 @@ public class WorkHelper {
      * Get all Units
      * @return List of type Unit
      */
-        public static List<Unit> getAllUnits() {
+    public static List<Unit> getAllUnits() {
         return getList("FROM Unit ORDER BY NAME ASC", Unit.class, false);
     }
     
@@ -428,5 +428,54 @@ public class WorkHelper {
     }
 
 // </editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="User Methods">
+    /**
+     * Get User by id
+     * @param id the user's id
+     * @return User object
+     */
+    public static User getUserById(int id) {
+        return getById("User", id, User.class);
+    }
+    
+    /**
+     * Get User by username
+     * @param username the User's username
+     * @return User object
+     */
+    public static User getUserByUsername(String username) {
+        return get("FROM User WHERE USERNAME='" + username + "'", User.class);
+    }
+    
+    /**
+     * Insert new User
+     * @param u the User to insert
+     * @return number of rows affected
+     */
+    public static int insertUser(User u) {
+        return insertOrUpdate("INSERT INTO Users (USERNAME, PASSWORD, CHALLENGEQUESTION, CHALLENGEANSWER) " +
+                "VALUES (:username, :password, :challengeQuestion, :challengeAnswer)", u, User.class);
+    }
+    
+    /**
+     * Update existing User
+     * @param u the updated User object
+     * @return number of rows affected
+     */
+    public static int updateUser(User u) {
+        return insertOrUpdate("UPDATE Users SET USERNAME=:username, PASSWORD=:password, " +
+                "CHALLENGEQUESTION=:challengeQuestion, CHALLENGEANSWER=:challengeAnswer WHERE ID=:id", u, User.class);
+    }
+    
+    /**
+     * Delete User by id
+     * @param id user id
+     * @return number of rows affected
+     */
+    public static int deleteUserById(int id) {
+        return deleteById("User", id);
+    }
+//</editor-fold>
     
 }
