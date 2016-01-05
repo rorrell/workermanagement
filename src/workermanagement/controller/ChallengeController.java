@@ -82,7 +82,7 @@ public class ChallengeController implements Initializable, IndexedController {
                     SceneUtility.showMissingFieldError(); //if not, show the user an error
                     return;
                 }
-                if(!u.checkAnswer(answerTxt.getText())) {
+                if(!u.checkAnswer(answerTxt.getText().toLowerCase())) {
                     SceneUtility.showError("Invalid answer.");
                     WorkHelper.resetSession();
                 }

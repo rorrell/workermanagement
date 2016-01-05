@@ -88,7 +88,7 @@ public class UserInfoController implements Initializable, IndexedController {
                     return;
                 }
                 //create a user from entered data
-                User u = new User(usernameTxt.getText(), passwordTxt.getText(), questionTxt.getText(), answerTxt.getText());
+                User u = new User(usernameTxt.getText(), passwordTxt.getText(), questionTxt.getText(), answerTxt.getText().toLowerCase());
                 int result = WorkHelper.insertUser(u); //attempt to insert into database
                 if(result < 1) //if no rows were affected in the query
                     SceneUtility.showActionError("saving this user"); //show user an error
