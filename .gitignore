@@ -1,0 +1,5 @@
+# ignore NetBeans files
+nbproject/**
+
+# ignore configuration files
+*.xml
